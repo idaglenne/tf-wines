@@ -1,15 +1,46 @@
 module.exports = {
   env: {
     browser: true,
-    es2021: true
+    es2021: true,
+    jest: true,
+    node: true,
+    amd: true,
   },
-  extends: ['plugin:react/recommended', 'standard-with-typescript'],
+  extends: [
+    'eslint:recommended',
+    'plugin:react/recommended',
+    'plugin:@typescript-eslint/recommended',
+    'prettier'
+  ],
   overrides: [],
   parserOptions: {
+    ecmaFeatures: {
+        jsx: true
+    },
     ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json']
+    sourceType: 'module'
   },
-  plugins: ['react'],
-  rules: {}
-}
+  plugins: ['react', 'react-hooks', '@typescript-eslint', 'prettier'],
+  rules: {
+    'react/react-in-jsx-scope': 'off',
+    'no-unused-vars': 'off',
+    '@typescript-eslint/no-unused-vars': 'error',
+    'camelcase': 'error',
+    'spaced-comment': 'error',
+    'quotes': ['error', 'single'],
+    'no-duplicate-imports': 'error',
+    '@typescript-eslint/ban-types': [
+      'error',
+      {
+        'extendDefaults': true,
+        'types': {
+          '{}': false
+        }
+      }
+    ]
+  },
+  settings: {
+    'import/resolver': {
+      typescript: {}
+    }}
+};
