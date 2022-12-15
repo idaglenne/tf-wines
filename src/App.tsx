@@ -1,26 +1,31 @@
-import React from 'react'
-import './App.css'
-import { getWines } from './services/wine.service'
+import React from 'react';
+import './App.css';
+import { Product } from './models/product.model';
+import { getWines } from './services/wine.service';
 
-class App extends React.Component<{}, { wines: any[] }> {
-  constructor (props: any) {
-    super(props)
-    this.state = { wines: [] }
+class App extends React.Component<{}, { wines: Product[] }> {
+  constructor(props: {}) {
+    super(props);
+    this.state = { wines: [] };
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    getWines().then(w => this.setState({ wines: w }))
   }
 
-  render (): JSX.Element {
+  render(): JSX.Element {
+    getWines().then((w) => this.setState({ wines: w }));
+
     return (
-      <div className="App">
+      <div className='App'>
         <ul>
-          {this.state.wines.map((w: any) => (
-            <li key="{w.productNameBold}">{w.productNameBold}</li>
+          {this.state.wines.map((w: Product) => (
+            <>
+              <li key='{w.productNameBold}'>{w.productNameBold}</li>
+              <li key='{w.productLaunchDate}'>{new Date(w.productLaunchDate).toDateString()}</li>
+            </>
           ))}
         </ul>
       </div>
-    )
+    );
   }
 }
 
-export default App
+export default App;
