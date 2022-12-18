@@ -1,9 +1,9 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app';
 import {
-  child,
   get,
   getDatabase,
+  limitToLast,
   onValue,
   orderByChild,
   query,
@@ -33,11 +33,10 @@ const app = initializeApp(firebaseConfig);
 // const analytics = getAnalytics(app);
 
 const database = getDatabase(app);
-const dbRef = ref(database, '/');
 
 export const writeToWines = (): void => {
   onValue(
-    child(dbRef, '/products'),
+    ref(database, '/wines/ts'),
     async (snapshot) => {
       const wines = snapshot
         .val()
@@ -53,8 +52,6 @@ export const writeToWines = (): void => {
 
       await remove(ref(database, 'wines/ts/'));
       await set(ref(database, 'wines/ts/'), wines);
-
-      // console.log('product name', wines);
     },
     {
       onlyOnce: true
@@ -63,13 +60,13 @@ export const writeToWines = (): void => {
 };
 
 export const getWines = async (): Promise<Product[]> => {
-  return await get(query(child(dbRef, '/wines/ts'), orderByChild('productLaunchDate'))).then(
-    (snapshot) => {
-      const response: Product[] = [];
-      snapshot.forEach((child) => {
-        response.unshift(child.val());
-      });
-      return response;
-    }
-  );
+  return await get(
+    query(ref(database, '/wines/ts'), orderByChild('productLaunchDate'), limitToLast(3))
+  ).then((snapshot) => {
+    const response: Product[] = [];
+    snapshot.forEach((child) => {
+      response.unshift(child.val());
+    });
+    return response;
+  });
 };
