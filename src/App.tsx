@@ -3,16 +3,15 @@ import './App.css';
 import { Product } from './models/product.model';
 import { getWines } from './services/wine.service';
 
-class App extends React.Component<{}, { wines: Product[] }> {
+class App extends React.Component {
   constructor(props: {}) {
     super(props);
-    this.state = { wines: [] };
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
   }
 
   render(): JSX.Element {
     return (
-      <div className='App'>
+      <div className="App">
         <Wines />
       </div>
     );
@@ -20,21 +19,29 @@ class App extends React.Component<{}, { wines: Product[] }> {
 }
 
 function Wines() {
-  const [wines, setWines] = useState<Product[]>([]);
+  const [_wines, setWines] = useState<Product[]>([]);
+  const [displayedWines, setDisplayedWines] = useState<Product[]>([]);
   useEffect(() => {
-    getWines().then((w) => setWines(w));
+    getWines().then((w) => {
+      setWines(w);
+      setDisplayedWines(w.slice(0, 3));
+    });
   }, []);
 
   return (
-    <ul>
-      {wines.map((w: Product) => (
+    <div className="wineGroup">
+      {displayedWines.map((w: Product) => (
         <>
-          <li key='{w.productNameBold}'>{w.productNameBold}</li>
-          <li key='{w.productNameThin}'>{w.productNameThin}</li>
-          <li key='{w.productLaunchDate}'>{new Date(w.productLaunchDate).toDateString()}</li>
+          <div className="wineCard">
+            <div className="card-heading" key="{w.productNameBold}">
+              {w.productNameBold}
+            </div>
+            <div key="{w.productNameThin}">{w.productNameThin}</div>
+            <div key="{w.productLaunchDate}">{new Date(w.productLaunchDate).toDateString()}</div>
+          </div>
         </>
       ))}
-    </ul>
+    </div>
   );
 }
 
