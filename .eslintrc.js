@@ -4,7 +4,7 @@ module.exports = {
     es2021: true,
     jest: true,
     node: true,
-    amd: true,
+    amd: true
   },
   extends: [
     'eslint:recommended',
@@ -15,7 +15,7 @@ module.exports = {
   overrides: [],
   parserOptions: {
     ecmaFeatures: {
-        jsx: true
+      jsx: true
     },
     ecmaVersion: 'latest',
     sourceType: 'module'
@@ -24,16 +24,24 @@ module.exports = {
   rules: {
     'react/react-in-jsx-scope': 'off',
     'no-unused-vars': 'off',
-    '@typescript-eslint/no-unused-vars': 'error',
-    'camelcase': 'error',
+    '@typescript-eslint/no-unused-vars': [
+      'error',
+      {
+        argsIgnorePattern: '^_',
+        varsIgnorePattern: '^_',
+        caughtErrorsIgnorePattern: '^_'
+      }
+    ],
+    camelcase: 'error',
     'spaced-comment': 'error',
-    'quotes': ['error', 'single'],
+    quotes: ['error', 'single'],
+    'jsx-quotes': ['error', 'prefer-double'],
     'no-duplicate-imports': 'error',
     '@typescript-eslint/ban-types': [
       'error',
       {
-        'extendDefaults': true,
-        'types': {
+        extendDefaults: true,
+        types: {
           '{}': false
         }
       }
@@ -42,5 +50,6 @@ module.exports = {
   settings: {
     'import/resolver': {
       typescript: {}
-    }}
+    }
+  }
 };
