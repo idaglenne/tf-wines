@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.scss';
-import { Wines } from './components/Wines';
+import { WinesPreview } from './components/WinesPreview';
 
 class App extends React.Component {
   constructor(props: {}) {
@@ -10,7 +10,7 @@ class App extends React.Component {
   render(): JSX.Element {
     return (
       <div className="App">
-        <Wines />
+        <WinesPreview />
       </div>
     );
   }

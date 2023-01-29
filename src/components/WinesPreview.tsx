@@ -1,14 +1,16 @@
 import { useEffect, useState } from 'react';
 import { Product } from '../models/product.model';
 import { getWines } from '../services/wine.service';
+import { PreviewCard } from './PreviewCard';
+import './WinesPreview.scss';
 
-export function Wines() {
+export function WinesPreview() {
   const [wines, setWines] = useState<Product[]>([]);
   const [displayedWines, setDisplayedWines] = useState<{
     products: Product[];
     currentStartIndex: number;
   }>({ products: [], currentStartIndex: 0 });
-  const wineCards = document.querySelectorAll('.wineCard');
+  const previewCards = document.querySelectorAll('.preview__card');
 
   useEffect(() => {
     getWines().then((w) => {
@@ -18,8 +20,9 @@ export function Wines() {
   }, []);
 
   const handleNextClick = (event: string) => {
-    wineCards.forEach((wc) => {
-      wc.classList.remove('slideLeft'), wc.classList.remove('slideRight');
+    previewCards.forEach((wc) => {
+      wc.classList.remove('slideLeft');
+      wc.classList.remove('slideRight');
     });
 
     setDisplayedWines((state) => {
@@ -29,7 +32,7 @@ export function Wines() {
     });
 
     window.requestAnimationFrame(() => {
-      wineCards.forEach((wc) => wc.classList.add(event === 'next' ? 'slideLeft' : 'slideRight'));
+      previewCards.forEach((wc) => wc.classList.add(event === 'next' ? 'slideLeft' : 'slideRight'));
     });
   };
 
@@ -40,28 +43,22 @@ export function Wines() {
   };
 
   return (
-    <div className="wrapper">
+    <div className="preview">
       <button
-        className="nextButton"
+        className="preview__next-button"
         disabled={isDisabled('previous')}
         onClick={() => handleNextClick('previous')}>
         {'<'}
       </button>
-      <div className="wineGroup">
+      <div className="preview__wine-group">
         {displayedWines.products.map((w: Product) => (
           <>
-            <div className="wineCard slideLeft">
-              <div className="card-heading" key="{w.productNameBold}">
-                {w.productNameBold}
-              </div>
-              <div key="{w.productNameThin}">{w.productNameThin}</div>
-              <div key="{w.productLaunchDate}">{new Date(w.productLaunchDate).toDateString()}</div>
-            </div>
+            <PreviewCard product={w} />
           </>
         ))}
       </div>
       <button
-        className="nextButton"
+        className="preview__next-button"
         disabled={isDisabled('next')}
         onClick={() => handleNextClick('next')}>
         {'>'}

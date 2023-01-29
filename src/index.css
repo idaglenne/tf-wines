@@ -1,3 +1,9 @@
+@font-face {
+  font-family: 'PublicSans'; /*Can be any text*/
+  font-weight: 'regular';
+  src: local('PublicSans-Regular'), url('./assets/PublicSans-Regular.ttf') format('truetype');
+}
+
 body {
   margin: 0;
   margin-top: 5rem;
