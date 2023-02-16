@@ -61,7 +61,7 @@ export const writeToWines = (): void => {
 
 export const getWines = async (): Promise<Product[]> => {
   return await get(
-    query(ref(database, '/wines/ts'), orderByChild('productLaunchDate'), limitToLast(3))
+    query(ref(database, '/wines/ts'), orderByChild('productLaunchDate'), limitToLast(20))
   ).then((snapshot) => {
     const response: Product[] = [];
     snapshot.forEach((child) => {
