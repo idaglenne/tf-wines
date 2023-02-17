@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Product } from '../models/product.model';
-import { getWines } from '../services/wine.service';
+import { getUpcomingRelease } from '../services/wine.service';
 import { PreviewCard } from './PreviewCard';
 import './WinesPreview.scss';
 
@@ -13,7 +13,7 @@ export function WinesPreview() {
   const previewCards = document.querySelectorAll('.preview__card');
 
   useEffect(() => {
-    getWines().then((w) => {
+    getUpcomingRelease().then((w) => {
       setWines(w);
       setDisplayedWines({ products: w.slice(0, 3), currentStartIndex: 0 });
     });

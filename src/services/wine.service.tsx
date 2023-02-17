@@ -4,12 +4,12 @@ import {
   get,
   getDatabase,
   limitToLast,
-  onValue,
   orderByChild,
   query,
   ref,
   remove,
-  set
+  set,
+  startAt
 } from 'firebase/database';
 import { Product } from '../models/product.model';
 // TODO: Add SDKs for Firebase products that you want to use
@@ -42,27 +42,20 @@ export const getWinesFromApi = () => {
 
 export const writeToWines = async (w: Product[]) => {
   const wines = w
-        .filter(
+    .filter(
       (p: Product) =>
         p.categoryLevel1 === 'Vin' &&
         (p.assortmentText === 'Tillfälligt sortiment' ||
           p.assortment == 'TSV' ||
           p.assortment == 'TSE')
-        )
-        .map((w: Product) => ({
-          ...w,
-          productLaunchDate: new Date(w.productLaunchDate).getTime()
-        }));
+    )
+    .map((w: Product) => ({
+      ...w,
+      productLaunchDate: new Date(w.productLaunchDate).getTime()
+    }));
 
-      console.log(wines[0].productLaunchDate);
-
-      await remove(ref(database, 'wines/ts/'));
-      await set(ref(database, 'wines/ts/'), wines);
-    },
-    {
-      onlyOnce: true
-    }
-  );
+  await remove(ref(database, 'wines/ts/'));
+  await set(ref(database, 'wines/ts/'), wines);
 };
 
 export const getWines = async (): Promise<Product[]> => {
@@ -73,6 +66,19 @@ export const getWines = async (): Promise<Product[]> => {
     snapshot.forEach((child) => {
       response.unshift(child.val());
     });
+    return response;
+  });
+};
+
+export const getUpcomingRelease = async (): Promise<Product[]> => {
+  return await get(
+    query(ref(database, '/wines/ts'), orderByChild('productLaunchDate'), startAt(Date.now()))
+  ).then((snapshot) => {
+    const response: Product[] = [];
+    snapshot.forEach((child) => {
+      response.push(child.val());
+    });
+
     return response;
   });
 };
