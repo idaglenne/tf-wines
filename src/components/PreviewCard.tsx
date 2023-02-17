@@ -4,13 +4,12 @@ import './WinesPreview.scss';
 export function PreviewCard({ product }: { product: Product }) {
   return (
     <div className="preview__card slideLeft">
-      <div className="card-heading" key={product.productNameBold}>
-        {product.productNameBold}
-      </div>
-      <div key={product.productNameThin}>{product.productNameThin}</div>
-      <div key={product.productLaunchDate}>
-        {new Date(product.productLaunchDate).toDateString()}
-      </div>
+      <div className="card-heading text-lg">{product.productNameBold}</div>
+      <div className="text-sm">{product.productNameThin}</div>
+      <div className="text-sm">{product.categoryLevel2}</div>
+      <div className="text-xs">{product?.grapes?.join(', ')}</div>
+      <div className="text-sm">{product.price} kr</div>
+      <div className="text-xs">{new Date(product.productLaunchDate).toDateString()}</div>
     </div>
   );
 }

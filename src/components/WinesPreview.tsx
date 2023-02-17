@@ -52,9 +52,7 @@ export function WinesPreview() {
       </button>
       <div className="preview__wine-group">
         {displayedWines.products.map((w: Product) => (
-          <>
-            <PreviewCard product={w} />
-          </>
+          <PreviewCard product={w} key={w.productId} />
         ))}
       </div>
       <button
