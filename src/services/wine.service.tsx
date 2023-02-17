@@ -34,14 +34,20 @@ const app = initializeApp(firebaseConfig);
 
 const database = getDatabase(app);
 
-export const writeToWines = (): void => {
-  onValue(
-    ref(database, '/wines/ts'),
-    async (snapshot) => {
-      const wines = snapshot
-        .val()
+export const getWinesFromApi = () => {
+  fetch('https://susbolaget.emrik.org/v1/products')
+    .then((wines) => wines.json())
+    .then((w) => writeToWines(w));
+};
+
+export const writeToWines = async (w: Product[]) => {
+  const wines = w
         .filter(
-          (p: Product) => p.categoryLevel1 === 'Vin' && p.assortmentText === 'Tillfälligt sortiment'
+      (p: Product) =>
+        p.categoryLevel1 === 'Vin' &&
+        (p.assortmentText === 'Tillfälligt sortiment' ||
+          p.assortment == 'TSV' ||
+          p.assortment == 'TSE')
         )
         .map((w: Product) => ({
           ...w,
