@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Product } from '../models/product.model';
 import { getUpcomingRelease } from '../services/wine.service';
-import { PreviewCard } from './PreviewCard';
 import './WinesPreview.scss';
+import { WinesPreviewCard } from './WinesPreviewCard';
 
 export function WinesPreview() {
   const [wines, setWines] = useState<Product[]>([]);
@@ -52,7 +52,7 @@ export function WinesPreview() {
       </button>
       <div className="preview__wine-group">
         {displayedWines.products.map((w: Product) => (
-          <PreviewCard product={w} key={w.productId} />
+          <WinesPreviewCard product={w} key={w.productId} />
         ))}
       </div>
       <button

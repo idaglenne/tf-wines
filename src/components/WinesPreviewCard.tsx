@@ -1,7 +1,7 @@
 import { Product } from '../models/product.model';
 import './WinesPreview.scss';
 
-export function PreviewCard({ product }: { product: Product }) {
+export function WinesPreviewCard({ product }: { product: Product }) {
   return (
     <div className="preview__card slideLeft">
       <div className="card-heading text-lg">{product.productNameBold}</div>
