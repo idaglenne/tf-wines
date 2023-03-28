@@ -1,0 +1,5 @@
+.release-list {
+  &__item:nth-child(even) {
+    background-color: rgba(158, 135, 135, 0.3);
+  }
+}

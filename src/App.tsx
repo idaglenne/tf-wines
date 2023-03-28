@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.scss';
+import { ReleaseList } from './components/ReleaseList';
 import { WinesPreview } from './components/WinesPreview';
 
 class App extends React.Component {
@@ -11,6 +12,7 @@ class App extends React.Component {
     return (
       <div className="App">
         <WinesPreview />
+        <ReleaseList />
       </div>
     );
   }
